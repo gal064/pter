@@ -1896,6 +1896,11 @@ class CursesApplication(Application):
             self.error(tr("Could not determine your external text editor"))
             return
 
+        if editor[0] == '/usr/local/bin/code':
+            os.system(f'code -r -g {task.task.todotxt.filename}:{task.task.linenr + 1}:999999999999999')
+            return
+
+
         with tempfile.NamedTemporaryFile("w+t", encoding="utf-8", suffix='.txt') as fh:
             fh.write(str(task.task))
             fh.flush()
