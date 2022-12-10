@@ -910,7 +910,7 @@ class TaskCreator(TaskEditor):
 
     def save_changes(self, text):
         self.app.show_cursor(False)
-        if self.has_changes() and not self.editor.read_only:
+        if self.has_changes() and not self.editor.read_only and self.processed_text != "":
             text = self.processed_text
             if self.auto_id and not any([word.startswith('id:') for word in text.split(' ')]):
                 text += ' id:#'
@@ -2081,6 +2081,7 @@ class CursesApplication(Application):
 
         def _do_delete(t):
             t.todotxt.tasks.remove(t)
+            t.parse("")
 
         can_perm_delete = self.last_perm_delete + self.perm_delete_timeout < datetime.datetime.now()
 
